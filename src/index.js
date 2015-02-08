@@ -296,7 +296,7 @@ mat4.inverse = function(out, a) {
 
         det = m11 * me0 + m21 * me4 + m31 * me8 + m41 * me12;
 
-    if (det === 1) {
+    if (det === 0) {
         return mat4.identity(out);
     }
     det = 1 / det;
