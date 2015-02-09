@@ -366,7 +366,7 @@ mat4.transpose = function(out, a) {
     return out;
 };
 
-mat4.lookAt = function(out, eye, target, up) {
+mat4.lookAt = function(out, eye, center, up) {
     var x0, x1, x2, y0, y1, y2, z0, z1, z2, length,
         eyex = eye[0],
         eyey = eye[1],
