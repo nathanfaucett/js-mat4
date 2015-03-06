@@ -563,17 +563,17 @@ mat4.extractRotation = function(out, a) {
         scaleY = ly !== 0 ? 1 / mathf.sqrt(ly) : ly,
         scaleZ = lz !== 0 ? 1 / mathf.sqrt(lz) : lz;
 
-    out[0] = me[0] * scaleX;
-    out[1] = me[1] * scaleX;
-    out[2] = me[2] * scaleX;
+    out[0] = a[0] * scaleX;
+    out[1] = a[1] * scaleX;
+    out[2] = a[2] * scaleX;
 
-    out[4] = me[4] * scaleY;
-    out[5] = me[5] * scaleY;
-    out[6] = me[6] * scaleY;
+    out[4] = a[4] * scaleY;
+    out[5] = a[5] * scaleY;
+    out[6] = a[6] * scaleY;
 
-    out[8] = me[8] * scaleZ;
-    out[9] = me[9] * scaleZ;
-    out[10] = me[10] * scaleZ;
+    out[8] = a[8] * scaleZ;
+    out[9] = a[9] * scaleZ;
+    out[10] = a[10] * scaleZ;
 
     return out;
 };
