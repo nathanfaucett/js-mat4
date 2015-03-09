@@ -683,16 +683,16 @@ mat4.scale = function(out, a, v) {
 };
 
 mat4.rotateX = function(out, a, angle) {
-    var m12 = a[4],
-        m22 = a[5],
-        m32 = a[6],
-        m42 = a[7],
-        m13 = a[8],
-        m23 = a[9],
-        m33 = a[10],
-        m43 = a[11],
-        c = mathf.cos(angle),
-        s = mathf.sin(angle);
+    var s = Math.sin(angle),
+        c = Math.cos(angle),
+        a10 = a[4],
+        a11 = a[5],
+        a12 = a[6],
+        a13 = a[7],
+        a20 = a[8],
+        a21 = a[9],
+        a22 = a[10],
+        a23 = a[11];
 
     if (a !== out) {
         out[0] = a[0];
@@ -705,30 +705,29 @@ mat4.rotateX = function(out, a, angle) {
         out[15] = a[15];
     }
 
-    out[4] = c * m12 + s * m13;
-    out[5] = c * m22 + s * m23;
-    out[6] = c * m32 + s * m33;
-    out[7] = c * m42 + s * m43;
+    out[4] = a10 * c + a20 * s;
+    out[5] = a11 * c + a21 * s;
+    out[6] = a12 * c + a22 * s;
+    out[7] = a13 * c + a23 * s;
+    out[8] = a20 * c - a10 * s;
+    out[9] = a21 * c - a11 * s;
+    out[10] = a22 * c - a12 * s;
+    out[11] = a23 * c - a13 * s;
 
-    out[8] = c * m13 - s * m12;
-    out[9] = c * m23 - s * m22;
-    out[10] = c * m33 - s * m32;
-    out[11] = c * m43 - s * m42;
-
-    return this;
+    return out;
 };
 
 mat4.rotateY = function(out, a, angle) {
-    var m11 = a[0],
-        m21 = a[1],
-        m31 = a[2],
-        m41 = a[3],
-        m13 = a[8],
-        m23 = a[9],
-        m33 = a[10],
-        m43 = a[11],
+    var s = mathf.sin(angle),
         c = mathf.cos(angle),
-        s = mathf.sin(angle);
+        a00 = a[0],
+        a01 = a[1],
+        a02 = a[2],
+        a03 = a[3],
+        a20 = a[8],
+        a21 = a[9],
+        a22 = a[10],
+        a23 = a[11];
 
     if (a !== out) {
         out[4] = a[4];
@@ -741,30 +740,29 @@ mat4.rotateY = function(out, a, angle) {
         out[15] = a[15];
     }
 
-    out[0] = c * m11 - s * m13;
-    out[1] = c * m21 - s * m23;
-    out[2] = c * m31 - s * m33;
-    out[3] = c * m41 - s * m43;
+    out[0] = a00 * c - a20 * s;
+    out[1] = a01 * c - a21 * s;
+    out[2] = a02 * c - a22 * s;
+    out[3] = a03 * c - a23 * s;
+    out[8] = a00 * s + a20 * c;
+    out[9] = a01 * s + a21 * c;
+    out[10] = a02 * s + a22 * c;
+    out[11] = a03 * s + a23 * c;
 
-    out[8] = c * m13 + s * m11;
-    out[9] = c * m23 + s * m21;
-    out[10] = c * m33 + s * m31;
-    out[11] = c * m43 + s * m41;
-
-    return this;
+    return out;
 };
 
 mat4.rotateZ = function(out, a, angle) {
-    var m11 = a[0],
-        m21 = a[1],
-        m31 = a[2],
-        m41 = a[3],
-        m12 = a[4],
-        m22 = a[5],
-        m32 = a[6],
-        m42 = a[7],
+    var s = mathf.sin(angle),
         c = mathf.cos(angle),
-        s = mathf.sin(angle);
+        a00 = a[0],
+        a01 = a[1],
+        a02 = a[2],
+        a03 = a[3],
+        a10 = a[4],
+        a11 = a[5],
+        a12 = a[6],
+        a13 = a[7];
 
     if (a !== out) {
         out[8] = a[8];
@@ -777,15 +775,14 @@ mat4.rotateZ = function(out, a, angle) {
         out[15] = a[15];
     }
 
-    out[0] = c * m11 + s * m12;
-    out[1] = c * m21 + s * m22;
-    out[2] = c * m31 + s * m32;
-    out[3] = c * m41 + s * m42;
-
-    out[4] = c * m12 - s * m11;
-    out[5] = c * m22 - s * m21;
-    out[6] = c * m32 - s * m31;
-    out[7] = c * m42 - s * m41;
+    out[0] = a00 * c + a10 * s;
+    out[1] = a01 * c + a11 * s;
+    out[2] = a02 * c + a12 * s;
+    out[3] = a03 * c + a13 * s;
+    out[4] = a10 * c - a00 * s;
+    out[5] = a11 * c - a01 * s;
+    out[6] = a12 * c - a02 * s;
+    out[7] = a13 * c - a03 * s;
 
     return out;
 };
