@@ -1,5 +1,6 @@
 var mathf = require("mathf"),
-    vec3 = require("vec3");
+    vec3 = require("vec3"),
+    isNumber = require("is_number");
 
 
 var mat4 = exports;
@@ -11,22 +12,22 @@ mat4.ArrayType = typeof(Float32Array) !== "undefined" ? Float32Array : mathf.Arr
 mat4.create = function(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44) {
     var out = new mat4.ArrayType(16);
 
-    out[0] = m11 !== undefined ? m11 : 1;
-    out[4] = m12 !== undefined ? m12 : 0;
-    out[8] = m13 !== undefined ? m13 : 0;
-    out[12] = m14 !== undefined ? m14 : 0;
-    out[1] = m21 !== undefined ? m21 : 0;
-    out[5] = m22 !== undefined ? m22 : 1;
-    out[9] = m23 !== undefined ? m23 : 0;
-    out[13] = m24 !== undefined ? m24 : 0;
-    out[2] = m31 !== undefined ? m31 : 0;
-    out[6] = m32 !== undefined ? m32 : 0;
-    out[10] = m33 !== undefined ? m33 : 1;
-    out[14] = m34 !== undefined ? m34 : 0;
-    out[3] = m41 !== undefined ? m41 : 0;
-    out[7] = m42 !== undefined ? m42 : 0;
-    out[11] = m43 !== undefined ? m43 : 0;
-    out[15] = m44 !== undefined ? m44 : 1;
+    out[0] = isNumber(m11) ? m11 : 1;
+    out[4] = isNumber(m12) ? m12 : 0;
+    out[8] = isNumber(m13) ? m13 : 0;
+    out[12] = isNumber(m14) ? m14 : 0;
+    out[1] = isNumber(m21) ? m21 : 0;
+    out[5] = isNumber(m22) ? m22 : 1;
+    out[9] = isNumber(m23) ? m23 : 0;
+    out[13] = isNumber(m24) ? m24 : 0;
+    out[2] = isNumber(m31) ? m31 : 0;
+    out[6] = isNumber(m32) ? m32 : 0;
+    out[10] = isNumber(m33) ? m33 : 1;
+    out[14] = isNumber(m34) ? m34 : 0;
+    out[3] = isNumber(m41) ? m41 : 0;
+    out[7] = isNumber(m42) ? m42 : 0;
+    out[11] = isNumber(m43) ? m43 : 0;
+    out[15] = isNumber(m44) ? m44 : 1;
 
     return out;
 };
@@ -78,22 +79,22 @@ mat4.clone = function(a) {
 
 mat4.set = function(out, m11, m12, m13, m14, m21, m22, m23, m24, m31, m32, m33, m34, m41, m42, m43, m44) {
 
-    out[0] = m11 !== undefined ? m11 : 1;
-    out[4] = m12 !== undefined ? m12 : 0;
-    out[8] = m13 !== undefined ? m13 : 0;
-    out[12] = m14 !== undefined ? m14 : 0;
-    out[1] = m21 !== undefined ? m21 : 0;
-    out[5] = m22 !== undefined ? m22 : 1;
-    out[9] = m23 !== undefined ? m23 : 0;
-    out[13] = m24 !== undefined ? m24 : 0;
-    out[2] = m31 !== undefined ? m31 : 0;
-    out[6] = m32 !== undefined ? m32 : 0;
-    out[10] = m33 !== undefined ? m33 : 1;
-    out[14] = m34 !== undefined ? m34 : 0;
-    out[3] = m41 !== undefined ? m41 : 0;
-    out[7] = m42 !== undefined ? m42 : 0;
-    out[11] = m43 !== undefined ? m43 : 0;
-    out[15] = m44 !== undefined ? m44 : 1;
+    out[0] = isNumber(m11) ? m11 : 1;
+    out[4] = isNumber(m12) ? m12 : 0;
+    out[8] = isNumber(m13) ? m13 : 0;
+    out[12] = isNumber(m14) ? m14 : 0;
+    out[1] = isNumber(m21) ? m21 : 0;
+    out[5] = isNumber(m22) ? m22 : 1;
+    out[9] = isNumber(m23) ? m23 : 0;
+    out[13] = isNumber(m24) ? m24 : 0;
+    out[2] = isNumber(m31) ? m31 : 0;
+    out[6] = isNumber(m32) ? m32 : 0;
+    out[10] = isNumber(m33) ? m33 : 1;
+    out[14] = isNumber(m34) ? m34 : 0;
+    out[3] = isNumber(m41) ? m41 : 0;
+    out[7] = isNumber(m42) ? m42 : 0;
+    out[11] = isNumber(m43) ? m43 : 0;
+    out[15] = isNumber(m44) ? m44 : 1;
 
     return out;
 };
@@ -553,7 +554,7 @@ mat4.setPosition = function(out, v) {
 
     out[12] = v[0];
     out[13] = v[1];
-    out[14] = z !== undefined ? z : 0;
+    out[14] = isNumber(z) ? z : 0;
 
     return out;
 };
@@ -1006,3 +1007,5 @@ mat4.str = function(out) {
         "     [" + out[3] + ", " + out[7] + ", " + out[11] + ", " + out[15] + "]"
     );
 };
+
+mat4.string = mat4.toString = mat4.str;
