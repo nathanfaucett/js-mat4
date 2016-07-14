@@ -1,6 +1,6 @@
-var mathf = require("mathf"),
-    vec3 = require("vec3"),
-    isNumber = require("is_number");
+var mathf = require("@nathanfaucett/mathf"),
+    vec3 = require("@nathanfaucett/vec3"),
+    isNumber = require("@nathanfaucett/is_number");
 
 
 var mat4 = exports;
