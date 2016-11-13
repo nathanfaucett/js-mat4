@@ -901,7 +901,7 @@ mat4.fromMat2 = function(out, m) {
 
     out[8] = 0;
     out[9] = 0;
-    out[10] = 0;
+    out[10] = 1;
     out[11] = 0;
 
     out[12] = 0;
@@ -926,7 +926,7 @@ mat4.fromMat32 = function(out, m) {
 
     out[8] = 0;
     out[9] = 0;
-    out[10] = 0;
+    out[10] = 1;
     out[11] = 0;
 
     out[12] = m[4];
