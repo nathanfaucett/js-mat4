@@ -1,6 +1,6 @@
 {
   "name": "@nathanfaucett/mat4",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "mat4 for the browser and node.js",
   "repository": {
     "type": "git",
@@ -31,6 +31,6 @@
   "dependencies": {
     "@nathanfaucett/is_number": "^0.0.1",
     "@nathanfaucett/mathf": "^0.0.3",
-    "@nathanfaucett/vec3": "^0.0.2"
+    "@nathanfaucett/vec3": "^0.0.3"
   }
 }

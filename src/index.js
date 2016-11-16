@@ -312,27 +312,28 @@ mat4.inverse = function(out, a) {
 
     if (!det) {
         return mat4.identity(out);
+    } else {
+        det = 1.0 / det;
+
+        out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det;
+        out[1] = (a02 * b10 - a01 * b11 - a03 * b09) * det;
+        out[2] = (a31 * b05 - a32 * b04 + a33 * b03) * det;
+        out[3] = (a22 * b04 - a21 * b05 - a23 * b03) * det;
+        out[4] = (a12 * b08 - a10 * b11 - a13 * b07) * det;
+        out[5] = (a00 * b11 - a02 * b08 + a03 * b07) * det;
+        out[6] = (a32 * b02 - a30 * b05 - a33 * b01) * det;
+        out[7] = (a20 * b05 - a22 * b02 + a23 * b01) * det;
+        out[8] = (a10 * b10 - a11 * b08 + a13 * b06) * det;
+        out[9] = (a01 * b08 - a00 * b10 - a03 * b06) * det;
+        out[10] = (a30 * b04 - a31 * b02 + a33 * b00) * det;
+        out[11] = (a21 * b02 - a20 * b04 - a23 * b00) * det;
+        out[12] = (a11 * b07 - a10 * b09 - a12 * b06) * det;
+        out[13] = (a00 * b09 - a01 * b07 + a02 * b06) * det;
+        out[14] = (a31 * b01 - a30 * b03 - a32 * b00) * det;
+        out[15] = (a20 * b03 - a21 * b01 + a22 * b00) * det;
+
+        return out;
     }
-    det = 1.0 / det;
-
-    out[0] = (a11 * b11 - a12 * b10 + a13 * b09) * det;
-    out[1] = (a02 * b10 - a01 * b11 - a03 * b09) * det;
-    out[2] = (a31 * b05 - a32 * b04 + a33 * b03) * det;
-    out[3] = (a22 * b04 - a21 * b05 - a23 * b03) * det;
-    out[4] = (a12 * b08 - a10 * b11 - a13 * b07) * det;
-    out[5] = (a00 * b11 - a02 * b08 + a03 * b07) * det;
-    out[6] = (a32 * b02 - a30 * b05 - a33 * b01) * det;
-    out[7] = (a20 * b05 - a22 * b02 + a23 * b01) * det;
-    out[8] = (a10 * b10 - a11 * b08 + a13 * b06) * det;
-    out[9] = (a01 * b08 - a00 * b10 - a03 * b06) * det;
-    out[10] = (a30 * b04 - a31 * b02 + a33 * b00) * det;
-    out[11] = (a21 * b02 - a20 * b04 - a23 * b00) * det;
-    out[12] = (a11 * b07 - a10 * b09 - a12 * b06) * det;
-    out[13] = (a00 * b09 - a01 * b07 + a02 * b06) * det;
-    out[14] = (a31 * b01 - a30 * b03 - a32 * b00) * det;
-    out[15] = (a20 * b03 - a21 * b01 + a22 * b00) * det;
-
-    return out;
 };
 
 mat4.transpose = function(out, a) {
@@ -827,7 +828,7 @@ mat4.rotateZ = function(out, a, angle) {
     return out;
 };
 
-mat4.makeTranslation = function(out, v) {
+mat4.setTranslation = function(out, v) {
 
     return mat4.set(
         out,
@@ -838,18 +839,19 @@ mat4.makeTranslation = function(out, v) {
     );
 };
 
-mat4.makeScale = function(out, v) {
+mat4.setScale = function(out, v) {
+    var z = v[3];
 
     return mat4.set(
         out,
         v[0], 0, 0, 0,
         0, v[1], 0, 0,
         0, 0, v[2], 0,
-        0, 0, 0, 1
+        0, 0, 0, isNumber(z) ? z : 1
     );
 };
 
-mat4.makeRotationX = function(out, angle) {
+mat4.seteRotationX = function(out, angle) {
     var c = mathf.cos(angle),
         s = mathf.sin(angle);
 
@@ -862,7 +864,7 @@ mat4.makeRotationX = function(out, angle) {
     );
 };
 
-mat4.makeRotationY = function(out, angle) {
+mat4.setRotationY = function(out, angle) {
     var c = mathf.cos(angle),
         s = mathf.sin(angle);
 
@@ -874,7 +876,7 @@ mat4.makeRotationY = function(out, angle) {
     );
 };
 
-mat4.makeRotationZ = function(out, angle) {
+mat4.setRotationZ = function(out, angle) {
     var c = mathf.cos(angle),
         s = mathf.sin(angle);
 
@@ -1004,7 +1006,7 @@ mat4.fromQuat = function(out, q) {
     return out;
 };
 
-mat4.frustum = function(out, left, right, top, bottom, near, far) {
+mat4.frustum = function(out, top, right, bottom, left, near, far) {
     var x = 2 * near / (right - left),
         y = 2 * near / (top - bottom),
 
@@ -1039,10 +1041,10 @@ mat4.perspective = function(out, fov, aspect, near, far) {
         xmin = ymin * aspect,
         xmax = ymax * aspect;
 
-    return mat4.frustum(out, xmin, xmax, ymax, ymin, near, far);
+    return mat4.frustum(out, ymax, xmax, ymin, xmin, near, far);
 };
 
-mat4.orthographic = function(out, left, right, top, bottom, near, far) {
+mat4.orthographic = function(out, top, right, bottom, left, near, far) {
     var w = right - left,
         h = top - bottom,
         p = far - near,
@@ -1071,54 +1073,36 @@ mat4.orthographic = function(out, left, right, top, bottom, near, far) {
     return out;
 };
 
-mat4.equal = function(a, b) {
-    return !(
-        a[0] !== b[0] ||
-        a[1] !== b[1] ||
-        a[2] !== b[2] ||
-        a[3] !== b[3] ||
-        a[4] !== b[4] ||
-        a[5] !== b[5] ||
-        a[6] !== b[6] ||
-        a[7] !== b[7] ||
-        a[8] !== b[8] ||
-        a[9] !== b[9] ||
-        a[10] !== b[10] ||
-        a[11] !== b[11] ||
-        a[12] !== b[12] ||
-        a[13] !== b[13] ||
-        a[14] !== b[14] ||
-        a[15] !== b[15]
-    );
+mat4.equals = function(a, b, e) {
+    return !mat4.notEquals(a, b, e);
 };
 
-mat4.notEqual = function(a, b) {
-    return (
-        a[0] !== b[0] ||
-        a[1] !== b[1] ||
-        a[2] !== b[2] ||
-        a[3] !== b[3] ||
-        a[4] !== b[4] ||
-        a[5] !== b[5] ||
-        a[6] !== b[6] ||
-        a[7] !== b[7] ||
-        a[8] !== b[8] ||
-        a[9] !== b[9] ||
-        a[10] !== b[10] ||
-        a[11] !== b[11] ||
-        a[12] !== b[12] ||
-        a[13] !== b[13] ||
-        a[14] !== b[14] ||
-        a[15] !== b[15]
+mat4.notEquals = function(a, b, e) {
+    return (!mathf.equals(a[0], b[0], e) ||
+        !mathf.equals(a[1], b[1], e) ||
+        !mathf.equals(a[2], b[2], e) ||
+        !mathf.equals(a[3], b[3], e) ||
+        !mathf.equals(a[4], b[4], e) ||
+        !mathf.equals(a[5], b[5], e) ||
+        !mathf.equals(a[6], b[6], e) ||
+        !mathf.equals(a[7], b[7], e) ||
+        !mathf.equals(a[8], b[8], e) ||
+        !mathf.equals(a[9], b[9], e) ||
+        !mathf.equals(a[10], b[10], e) ||
+        !mathf.equals(a[11], b[11], e) ||
+        !mathf.equals(a[12], b[12], e) ||
+        !mathf.equals(a[13], b[13], e) ||
+        !mathf.equals(a[14], b[14], e) ||
+        !mathf.equals(a[15], b[15], e)
     );
 };
 
 mat4.str = function(out) {
     return (
-        "Mat4[" + out[0] + ", " + out[4] + ", " + out[8] + ", " + out[12] + "]\n" +
-        "     [" + out[1] + ", " + out[5] + ", " + out[9] + ", " + out[13] + "]\n" +
-        "     [" + out[2] + ", " + out[6] + ", " + out[10] + ", " + out[14] + "]\n" +
-        "     [" + out[3] + ", " + out[7] + ", " + out[11] + ", " + out[15] + "]"
+        "Mat4[" + out[0] + ", " + out[4] + ", " + out[8] + ", " + out[12] + ",\n" +
+        "     " + out[1] + ", " + out[5] + ", " + out[9] + ", " + out[13] + ",\n" +
+        "     " + out[2] + ", " + out[6] + ", " + out[10] + ", " + out[14] + ",\n" +
+        "     " + out[3] + ", " + out[7] + ", " + out[11] + ", " + out[15] + "]"
     );
 };
 
